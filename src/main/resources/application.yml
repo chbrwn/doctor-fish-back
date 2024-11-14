@@ -1,6 +1,50 @@
 spring:
   config:
     import: application-secret.yml
+  profiles:
+    active: local
+    group:
+      local: local_server, common, secret
+      blue: blue_server, common, secret
+      green: green_server, common, secret
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local_server
+server:
+  port: 8080
+client:
+  address: http://localhost:3000
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: blue_server
+server:
+  port: 8080
+client:
+  address: https://d10pr2eqa2qpgh.cloudfront.net/
+---
+
+spring:
+  config:
+    activate:
+      on-profile: green_server
+server:
+  port: 9090
+client:
+  address: https://d10pr2eqa2qpgh.cloudfront.net/
+---
+
+spring:
+  config:
+    activate:
+      on-profile: common
 
 mybatis:
   mapper-locations:
